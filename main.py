@@ -37,20 +37,18 @@ class MainWindow(QMainWindow, QDialog):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.ui.pushButton.clicked.connect(self.open_login_form)
         self.ui.register_button.clicked.connect(self.open_register_form)
         self.ui.close_button.clicked.connect(self.close_window)
 
     def open_login_form(self):
-        self.login_window = LoginWindow()
-        self.login_window.show()
-        self.close()
+        widget.setCurrentWidget(login_window)
 
-    @pyqtSlot()
     def open_register_form(self):
-        self.register_window = RegisterUserWindow()
-        self.register_window.show()
-        self.hide()
+
+        widget.setCurrentWidget(register_window)
 
     def close_window(self):
         self.hide()
@@ -82,20 +80,20 @@ class LoginWindow(QMainWindow, QDialog):
             else:
                 if user_pass[2] == password:
                     if user_pass[3] == 'False':
-                        self.user_table_window = UserTableWindow()
-                        self.user_table_window.show()
-                        self.hide()
+                        self.ui.username_field.clear()
+                        self.ui.password_field.clear()
+                        self.ui.error_field.clear()
+                        widget.setCurrentWidget(user_window)
                     else:
-                        self.admin_table_window = AdminTableWindow()
-                        self.admin_table_window.show()
-                        self.hide()
+                        self.ui.username_field.clear()
+                        self.ui.password_field.clear()
+                        self.ui.error_field.clear()
+                        widget.setCurrentWidget(admin_window)
                 else:
                     self.ui.error_field.setText("Invalid username or password")
 
     def back_to_main_window(self):
-        self.main_window = MainWindow()
-        self.main_window.show()
-        self.hide()
+        widget.setCurrentWidget(main_window)
 
 
 class RegisterUserWindow(QDialog):
@@ -122,14 +120,14 @@ class RegisterUserWindow(QDialog):
                 self.ui.error_field.setText("Passwords don't match")
             elif password2 == password1:
                 ice_hockey_bd.add_new_user(username, password1, bool(is_superuser))
-                self.login_window = LoginWindow()
-                self.login_window.show()
-                self.hide()
+                self.ui.username_field.clear()
+                self.ui.password1_field.clear()
+                self.ui.password2_field.clear()
+                self.ui.error_field.clear()
+                widget.setCurrentWidget(login_window)
 
     def back_to_main_window(self):
-        self.main_window = MainWindow()
-        self.main_window.show()
-        self.hide()
+        widget.setCurrentWidget(main_window)
 
 
 class UserTableWindow(QDialog):
@@ -192,9 +190,7 @@ class UserTableWindow(QDialog):
             tablerow += 1
 
     def logout(self):
-        self.main_window = MainWindow()
-        main_window.show()
-        self.hide()
+        widget.setCurrentWidget(main_window)
 
 
 class AdminTableWindow(QDialog):
@@ -235,9 +231,7 @@ class AdminTableWindow(QDialog):
             tablerow += 1
 
     def click_add_player_button(self):
-        self.add_player_window = AddPlayerWindow()
-        self.add_player_window.show()
-        self.hide()
+        widget.setCurrentWidget(add_player_window)
 
     def get_double_click_item(self, item):
         print(10)
@@ -277,16 +271,13 @@ class AdminTableWindow(QDialog):
     def get_clicked_item(self, item):
         player_name = self.tableWidget.item(item.row(), 0).text()
         self.clicked_item_to_delete = player_name
-        print(self.clicked_item_to_delete)
 
     def delete_player(self):
         player_name = self.clicked_item_to_delete
         ice_hockey_bd.delete_player(player_name)
 
     def logout(self):
-        self.main_window = MainWindow()
-        main_window.show()
-        self.hide()
+        widget.setCurrentWidget(main_window)
 
 
 class AddPlayerWindow(QDialog):
@@ -312,15 +303,17 @@ class AddPlayerWindow(QDialog):
         ice_hockey_bd.add_player_statistic(add_player_id, statistic_player_game,
                                            statistic_player_goal, statistic_player_assists,
                                            statistic_player_penalty_minutes)
+        self.ui.name_field.clear()
+        self.ui.birthday_field.clear()
+        self.ui.game_field.clear()
+        self.ui.goal_field.clear()
+        self.ui.assist_field.clear()
+        self.ui.penalty_minutes_field.clear()
 
-        self.admin_table_window = AdminTableWindow()
-        self.admin_table_window.show()
-        self.hide()
+        widget.setCurrentWidget(admin_window)
 
     def back_to_admin_window(self):
-        self.admin_table_window = AdminTableWindow()
-        self.admin_table_window.show()
-        self.hide()
+        widget.setCurrentWidget(admin_window)
 
 
 
@@ -330,7 +323,25 @@ if __name__ == '__main__':
     widget = QStackedWidget()
 
     main_window = MainWindow()
+    login_window = LoginWindow()
+    register_window = RegisterUserWindow()
+    user_window = UserTableWindow()
+    admin_window = AdminTableWindow()
+    add_player_window = AddPlayerWindow()
 
-    main_window.show()
+    widget.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+    widget.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+    widget.setFixedHeight(500)
+    widget.setFixedWidth(750)
+
+    widget.addWidget(main_window)
+    widget.addWidget(login_window)
+    widget.addWidget(register_window)
+    widget.addWidget(user_window)
+    widget.addWidget(admin_window)
+    widget.addWidget(add_player_window)
+
+    widget.setCurrentWidget(main_window)
+    widget.show()
 
     sys.exit(app.exec_())
