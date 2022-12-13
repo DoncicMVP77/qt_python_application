@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>pngwing.com (2).png</file>
+    <file>pngwing.com (1).png</file>
+  </qresource>
+</RCC>
