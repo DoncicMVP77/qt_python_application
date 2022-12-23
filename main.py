@@ -40,15 +40,13 @@ class MainWindow(QMainWindow, QDialog):
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.ui.pushButton.clicked.connect(self.open_login_form)
-        self.ui.register_button.clicked.connect(self.open_register_form)
+
         self.ui.close_button.clicked.connect(self.close_window)
 
     def open_login_form(self):
         widget.setCurrentWidget(login_window)
 
-    def open_register_form(self):
 
-        widget.setCurrentWidget(register_window)
 
     def close_window(self):
         self.hide()
@@ -124,10 +122,10 @@ class RegisterUserWindow(QDialog):
                 self.ui.password1_field.clear()
                 self.ui.password2_field.clear()
                 self.ui.error_field.clear()
-                widget.setCurrentWidget(login_window)
+                widget.setCurrentWidget(admin_window)
 
     def back_to_main_window(self):
-        widget.setCurrentWidget(main_window)
+        widget.setCurrentWidget(admin_window)
 
 
 class UserTableWindow(QDialog):
@@ -208,6 +206,7 @@ class AdminTableWindow(QDialog):
         self.tableWidget.itemClicked.connect(self.get_clicked_item)
         self.update_table_button.clicked.connect(self.get_player_list_button)
         self.delete_player_button.clicked.connect(self.delete_player)
+        self.register_button.clicked.connect(self.open_register_form)
         #self.delete_player_button.clicked.connect(self.delete_player_button)
 
         self.double_click_item = ()
@@ -239,7 +238,9 @@ class AdminTableWindow(QDialog):
         self.double_click_item = (row, column)
         self.double_click_player_name = self.tableWidget.item(row, 0).text()
 
+    def open_register_form(self):
 
+        widget.setCurrentWidget(register_window)
 
     def get_change_item(self, item):
         row, column = item.row(), item.column()

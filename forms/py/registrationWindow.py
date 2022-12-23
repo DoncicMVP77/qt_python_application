@@ -117,7 +117,7 @@ class Ui_RegistrationWindow(object):
         _translate = QtCore.QCoreApplication.translate
         RegistrationWindow.setWindowTitle(_translate("RegistrationWindow", "Dialog"))
         self.register_user_button.setText(_translate("RegistrationWindow", "Register"))
-        self.back_to_main_window.setText(_translate("RegistrationWindow", "Main Window"))
+        self.back_to_main_window.setText(_translate("RegistrationWindow", "Admin Window"))
         self.check_is_superuser.setText(_translate("RegistrationWindow", "is_superuser"))
         self.username_field.setPlaceholderText(_translate("RegistrationWindow", "User Name"))
         self.password1_field.setPlaceholderText(_translate("RegistrationWindow", "Password"))
