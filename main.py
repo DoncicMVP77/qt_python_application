@@ -137,10 +137,47 @@ class UserTableWindow(QDialog):
         self.top_fife_player_button.clicked.connect(self.get_top_fife_player)
         self.player_list_button.clicked.connect(self.get_player_list_button)
         self.logout_button.clicked.connect(self.logout)
+        self.sorting_button.clicked.connect(self.click_sorting_button)
+        self.find_player_field.returnPressed.connect(self.get_find_player)
         #self.tableWidget.doubleClicked.connect(self.current_row)
 
         self.load_data()
 
+    def get_find_player(self):
+        self.tableWidget.setRowCount(0)
+        player_name = self.find_player_field.text()
+        player = ice_hockey_bd.get_player_by_name(player_name)
+        self.find_player_field.clear()
+        self.tableWidget.setRowCount(1)
+        if player is not None:
+            self.tableWidget.setItem(0, 0, QTableWidgetItem(player[0]))
+            self.tableWidget.setItem(0, 1, QTableWidgetItem(player[1]))
+            self.tableWidget.setItem(0, 2, QTableWidgetItem(str(player[2])))
+            self.tableWidget.setItem(0, 3, QTableWidgetItem(str(player[3])))
+            self.tableWidget.setItem(0, 4, QTableWidgetItem(str(player[4])))
+            self.tableWidget.setItem(0, 5, QTableWidgetItem(str(player[5])))
+            self.tableWidget.setItem(0, 6, QTableWidgetItem(str(player[6])))
+
+    def click_sorting_button(self):
+
+        self.tableWidget.setRowCount(0)
+        param_sorting = self.comboBox.currentText()
+        sorted_list_player = ice_hockey_bd.get_sorting_player_list(param_sorting)
+        print(sorted_list_player)
+        tablerow = 0
+        self.tableWidget.setRowCount(len(sorted_list_player))
+        print()
+        print("sorting list")
+        for player in sorted_list_player:
+            print(player)
+            self.tableWidget.setItem(tablerow, 0, QTableWidgetItem(player[0]))
+            self.tableWidget.setItem(tablerow, 1, QTableWidgetItem(player[1]))
+            self.tableWidget.setItem(tablerow, 2, QTableWidgetItem(str(player[2])))
+            self.tableWidget.setItem(tablerow, 3, QTableWidgetItem(str(player[3])))
+            self.tableWidget.setItem(tablerow, 4, QTableWidgetItem(str(player[4])))
+            self.tableWidget.setItem(tablerow, 5, QTableWidgetItem(str(player[5])))
+            self.tableWidget.setItem(tablerow, 6, QTableWidgetItem(str(player[6])))
+            tablerow += 1
     def get_top_fife_player(self):
         self.tableWidget.setRowCount(0)
         top_fife_players = ice_hockey_bd.get_top_fife_players()
@@ -207,6 +244,7 @@ class AdminTableWindow(QDialog):
         self.update_table_button.clicked.connect(self.get_player_list_button)
         self.delete_player_button.clicked.connect(self.delete_player)
         self.register_button.clicked.connect(self.open_register_form)
+        self.delete_account_window_button.clicked.connect(self.open_delete_user_form)
         #self.delete_player_button.clicked.connect(self.delete_player_button)
 
         self.double_click_item = ()
@@ -228,6 +266,9 @@ class AdminTableWindow(QDialog):
             self.tableWidget.setItem(tablerow, 5, QTableWidgetItem(str(player[5])))
             self.tableWidget.setItem(tablerow, 6, QTableWidgetItem(str(player[6])))
             tablerow += 1
+
+    def open_delete_user_form(self):
+        widget.setCurrentWidget(delete_user_window)
 
     def click_add_player_button(self):
         widget.setCurrentWidget(add_player_window)
@@ -317,6 +358,57 @@ class AddPlayerWindow(QDialog):
         widget.setCurrentWidget(admin_window)
 
 
+class DeleteUserTableWindow(QDialog):
+    def __init__(self):
+        super(DeleteUserTableWindow, self).__init__()
+        loadUi("DeleteUserTableWindow.ui", self)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.back_to_admin_window_button.clicked.connect(self.back_to_admin_window)
+        self.delete_user_button.clicked.connect(self.delete_user)
+        self.tableWidget.itemClicked.connect(self.get_clicked_item)
+        self.update_table_button.clicked.connect(self.get_player_list_button)
+        self.tableWidget.setColumnWidth(0, 200)
+        self.tableWidget.setColumnWidth(1, 200)
+        self.tableWidget.setColumnWidth(2, 220)
+        self.load_data()
+
+        self.clicked_item_to_delete = ''
+
+    def load_data(self):
+        users = ice_hockey_bd.get_information_about_users()
+        tablerow = 0
+        self.tableWidget.setRowCount(len(users))
+        for user in users:
+            print(user)
+            self.tableWidget.setItem(tablerow, 0, QTableWidgetItem(str(user[0])))
+            self.tableWidget.setItem(tablerow, 1, QTableWidgetItem(user[1]))
+            self.tableWidget.setItem(tablerow, 2, QTableWidgetItem(user[2]))
+            tablerow += 1
+
+    def get_player_list_button(self):
+        self.tableWidget.setRowCount(0)
+        users = ice_hockey_bd.get_information_about_users()
+        tablerow = 0
+        self.tableWidget.setRowCount(len(users))
+        for user in users:
+            print(user)
+            self.tableWidget.setItem(tablerow, 0, QTableWidgetItem(str(user[0])))
+            self.tableWidget.setItem(tablerow, 1, QTableWidgetItem(user[1]))
+            self.tableWidget.setItem(tablerow, 2, QTableWidgetItem(user[2]))
+            tablerow += 1
+
+    def get_clicked_item(self, item):
+        user_id = self.tableWidget.item(item.row(), 0).text()
+        print(user_id)
+        self.clicked_item_to_delete = user_id
+
+    def delete_user(self):
+        user_id = self.clicked_item_to_delete
+        ice_hockey_bd.delete_user(user_id)
+
+    def back_to_admin_window(self):
+        widget.setCurrentWidget(admin_window)
 
 
 if __name__ == '__main__':
@@ -329,6 +421,7 @@ if __name__ == '__main__':
     user_window = UserTableWindow()
     admin_window = AdminTableWindow()
     add_player_window = AddPlayerWindow()
+    delete_user_window = DeleteUserTableWindow()
 
     widget.setWindowFlags(QtCore.Qt.FramelessWindowHint)
     widget.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -341,6 +434,7 @@ if __name__ == '__main__':
     widget.addWidget(user_window)
     widget.addWidget(admin_window)
     widget.addWidget(add_player_window)
+    widget.addWidget(delete_user_window)
 
     widget.setCurrentWidget(main_window)
     widget.show()

@@ -180,19 +180,39 @@ border-radius: 10px;</string>
     <rect>
      <x>40</x>
      <y>20</y>
-     <width>201</width>
+     <width>161</width>
      <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>10</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
     <string>Create a new account</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="delete_account_window_button">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>20</y>
+     <width>161</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Delete existing account</string>
    </property>
   </widget>
   <zorder>label</zorder>
@@ -202,6 +222,7 @@ border-radius: 10px;</string>
   <zorder>delete_player_button</zorder>
   <zorder>logout_button</zorder>
   <zorder>register_button</zorder>
+  <zorder>delete_account_window_button</zorder>
  </widget>
  <resources/>
  <connections/>

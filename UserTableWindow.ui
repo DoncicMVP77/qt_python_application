@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>737</width>
-    <height>500</height>
+    <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>40</y>
+     <y>70</y>
      <width>650</width>
-     <height>311</height>
+     <height>281</height>
     </rect>
    </property>
    <property name="font">
@@ -102,7 +102,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
      <width>691</width>
      <height>451</height>
@@ -156,11 +156,87 @@ border-radius: 10px;</string>
     <string>Player List</string>
    </property>
   </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>20</y>
+     <width>140</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>Player Name</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Goals</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Games</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="sorting_button">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>20</y>
+     <width>150</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Sorting</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="find_player_field">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>20</y>
+     <width>181</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(0, 0, 0 0);
+font: 14pt &quot;MS UI Gothic&quot;;
+border:1px solid rgba(0, 0, 0, 0);
+border-bottom-color:rgba(46, 82, 101, 255);
+color:rgb(255, 255, 255);
+padding-bottom:7px</string>
+   </property>
+   <property name="placeholderText">
+    <string>Find Player</string>
+   </property>
+  </widget>
   <zorder>label</zorder>
   <zorder>tableWidget</zorder>
   <zorder>top_fife_player_button</zorder>
   <zorder>logout_button</zorder>
   <zorder>player_list_button</zorder>
+  <zorder>comboBox</zorder>
+  <zorder>sorting_button</zorder>
+  <zorder>find_player_field</zorder>
  </widget>
  <resources/>
  <connections/>
